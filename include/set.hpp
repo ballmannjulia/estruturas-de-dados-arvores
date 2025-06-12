@@ -66,10 +66,28 @@ template <class T>
 Set<T>::Set() {}
 
 template <class T>
-bool Set<T>::insert(const T& value) {}
+bool Set<T>::insert(const T& value) {
+  // Se já existe, não insere
+  if (data.search(value)) {
+    return false;
+  }
+  // Insere se não existir
+  data.insert(value);
+  return true;
+}
 
 template <class T>
-bool Set<T>::remove(const T& value) {}
+bool Set<T>::remove(const T& value) {
+  // Se não existe, não remove
+  if (!data.search(value)) {
+    return false;
+  }
+  // Remove se existir
+  data.remove(value);
+  return true;
+}
 
 template <class T>
-bool Set<T>::search(const T& value) const {}
+bool Set<T>::search(const T& value) const {
+  return data.search(value);
+}

@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 #include "bst.hpp"
 
 /**
@@ -93,10 +94,33 @@ template <class K, class V>
 Map<K, V>::Map() {}
 
 template <class K, class V>
-V& Map<K, V>::operator[](const K& key) {}
+V& Map<K, V>::operator[](const K& key) {
+  Pair temp(key);
+  Pair* found = data.search(temp);
+
+  if (found) {
+    return found->value;
+  }
+
+  // Insere novo Pair com valor padrão
+  data.insert(temp);
+  return data.search(temp)->value;
+}
 
 template <class K, class V>
-const V& Map<K, V>::operator[](const K& key) const {}
+const V& Map<K, V>::operator[](const K& key) const {
+  Pair temp(key);
+  Pair* found = data.search(temp);
+
+  if (!found) {
+    throw std::out_of_range("Chave não encontrada no Map.");
+  }
+
+  return found->value;
+}
 
 template <class K, class V>
-bool Map<K, V>::remove(const K& key) {}
+bool Map<K, V>::remove(const K& key) {
+  Pair temp(key);
+  return data.remove(temp);
+}
